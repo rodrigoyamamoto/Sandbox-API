@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Sandbox.Business.Models;
 
@@ -29,13 +30,6 @@ namespace Sandbox.Data.Context
                 Users.Add(user);
                 SaveChanges();
             }
-
         }
-
-        public List<User> GetUsers()
-        {
-            return Users.Local.ToList<User>();
-        }
-
     }
 }

@@ -1,4 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Sandbox.Business.Interfaces;
+using Sandbox.Business.Models;
 using Sandbox.Data.Context;
 
 namespace Sandbox.API.Controllers
@@ -7,19 +14,24 @@ namespace Sandbox.API.Controllers
     [Route("api/[controller]")]
     public class HomeController : ControllerBase
     {
-        private readonly ApplicationContext _context;
+        private readonly IUserRepository _userRepository;
 
-        public HomeController(ApplicationContext context)
+        public HomeController(IUserRepository context)
         {
-            _context = context;
+            _userRepository = context;
         }
 
-        [HttpGet]
+        [HttpGet("/")]
         public IActionResult Index()
-        {
-            var userList = _context.GetUsers();
+            => Ok();
 
-            return Ok(userList);
-        }
+        [HttpGet("/users")]
+        public async Task<IEnumerable<User>> ListAsync()
+            => await _userRepository.ListAsync();
+
+        [HttpGet("/users/{id}")]
+        public async Task<User> GetUserById(Guid id)
+            => await _userRepository.GetByIdAsync(id);
+
     }
 }

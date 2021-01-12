@@ -4,11 +4,13 @@ namespace Sandbox.Business.Models
 {
     public abstract class Entity
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
         protected Entity()
         {
-            Id = new Guid();
+            //TODO: needs refactoring
+            if (Id.Equals(null))
+                Id = Guid.NewGuid();
         }
     }
 }
